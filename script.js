@@ -1,29 +1,24 @@
-// ================================
-// WEBSOCKET CONFIG
-// ================================
-const WS_URL = "wss://iot-ws-server.onrender.com"; // <-- YOUR Render URL
+const WS_URL = "wss://iot-ws-server.onrender.com";
 const socket = new WebSocket(WS_URL);
 
-// ================================
-// SOCKET EVENTS
-// ================================
+// ================= SOCKET STATUS =================
 socket.onopen = () => {
   console.log("✅ WebSocket Connected");
-};
-
-socket.onerror = (err) => {
-  console.error("❌ WebSocket Error", err);
 };
 
 socket.onclose = () => {
   console.warn("⚠️ WebSocket Disconnected");
 };
 
-// ================================
-// RECEIVE DATA FROM SERVER / ESP32
-// ================================
+// ================= HANDLE INCOMING DATA =================
 socket.onmessage = (event) => {
-  const data = JSON.parse(event.data);
+  let data;
+  try {
+    data = JSON.parse(event.data);
+  } catch {
+    return;
+  }
+
   const { id, state } = data;
 
   const card = document.querySelector(`.card[data-id="${id}"]`);
@@ -31,38 +26,28 @@ socket.onmessage = (event) => {
 
   const toggle = card.querySelector(".toggle");
 
-  // ✅ SYNC CARD + TOGGLE (FIXED)
-  if (state) {
-    card.classList.add("on");
-    toggle.classList.add("on");
-  } else {
-    card.classList.remove("on");
-    toggle.classList.remove("on");
+  // 🔒 ONLY update UI if state is DIFFERENT
+  if (card.classList.contains("on") !== state) {
+    card.classList.toggle("on", state);
+    toggle.classList.toggle("on", state);
   }
 };
 
-// ================================
-// HANDLE TOGGLE CLICK
-// ================================
+// ================= HANDLE USER CLICK =================
 document.querySelectorAll(".toggle").forEach(toggle => {
   toggle.addEventListener("click", () => {
     const card = toggle.closest(".card");
-    const id = card.dataset.id;
+    const id = Number(card.dataset.id);
 
     const newState = !card.classList.contains("on");
 
-    // ✅ INSTANT UI UPDATE (NO DELAY)
-    if (newState) {
-      card.classList.add("on");
-      toggle.classList.add("on");
-    } else {
-      card.classList.remove("on");
-      toggle.classList.remove("on");
-    }
+    // ✅ IMMEDIATE UI UPDATE (NO WAIT)
+    card.classList.toggle("on", newState);
+    toggle.classList.toggle("on", newState);
 
-    // ✅ SEND STATE TO SERVER
+    // ✅ SEND TO BACKEND
     socket.send(JSON.stringify({
-      id: id,
+      id,
       state: newState
     }));
   });
