@@ -1,126 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>TARCIN ROBOTICS · IoT Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TARCIN ROBOTICS · IoT Dashboard</title>
 
-<style>
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#0b0b0b;
-  color:#fff;
-}
-header{
-  text-align:center;
-  padding:20px;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
-  padding:20px;
-}
-.card{
-  background:#111;
-  padding:14px;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  gap:14px;
-  transition:0.3s;
-  position:relative;
-}
-
-/* CARD ON STATE */
-.card.on{
-  background:#1a0b0b;
-  box-shadow:0 0 20px rgba(255,40,40,0.25);
-  transform:translateY(-4px);
-}
-
-.icon{
-  width:42px;
-  height:42px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  background:#333;
-}
-
-/* 💡 BULB */
-.light.on .icon{
-  background:#ffeb3b;
-  box-shadow:0 0 25px rgba(255,235,59,0.9);
-  animation:bulbPulse 1.5s infinite;
-}
-@keyframes bulbPulse{
-  0%{box-shadow:0 0 12px rgba(255,235,59,0.5);}
-  50%{box-shadow:0 0 28px rgba(255,235,59,1);}
-  100%{box-shadow:0 0 12px rgba(255,235,59,0.5);}
-}
-
-/* 🌀 FAN */
-.fan.on .icon{
-  border:4px solid #ccc;
-  background:transparent;
-  animation:spin 1s linear infinite;
-}
-@keyframes spin{
-  from{transform:rotate(0deg);}
-  to{transform:rotate(360deg);}
-}
-
-/* 🔌 PLUG */
-.plug.on .icon{
-  background:#00e676;
-  box-shadow:0 0 22px rgba(0,230,118,0.9);
-}
-
-.label{
-  flex:1;
-}
-
-/* TOGGLE */
-.toggle{
-  width:56px;
-  height:30px;
-  background:#222;
-  border-radius:20px;
-  position:relative;
-  cursor:pointer;
-}
-.toggle .knob{
-  width:24px;
-  height:24px;
-  background:#fff;
-  border-radius:50%;
-  position:absolute;
-  top:3px;
-  left:3px;
-  transition:0.25s;
-}
-.toggle.on{
-  background:#ff2b2b;
-}
-.toggle.on .knob{
-  transform:translateX(26px);
-}
-
-footer{
-  text-align:center;
-  color:#aaa;
-  padding:20px;
-}
-</style>
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
 <header>
-  <h2>TARCIN ROBOTICS</h2>
+  <h1>TARCIN ROBOTICS</h1>
   <p>IoT Home Automation Dashboard</p>
 </header>
 
@@ -128,51 +20,62 @@ footer{
 
   <!-- LIGHTS -->
   <div class="card light" data-id="0">
-    <div class="icon">💡</div><div class="label">Light 1</div>
+    <div class="icon bulb"></div>
+    <div class="label">Light 1</div>
     <div class="toggle"><div class="knob"></div></div>
   </div>
 
   <div class="card light" data-id="1">
-    <div class="icon">💡</div><div class="label">Light 2</div>
+    <div class="icon bulb"></div>
+    <div class="label">Light 2</div>
     <div class="toggle"><div class="knob"></div></div>
   </div>
 
   <div class="card light" data-id="2">
-    <div class="icon">💡</div><div class="label">Light 3</div>
+    <div class="icon bulb"></div>
+    <div class="label">Light 3</div>
     <div class="toggle"><div class="knob"></div></div>
   </div>
 
   <div class="card light" data-id="3">
-    <div class="icon">💡</div><div class="label">Light 4</div>
+    <div class="icon bulb"></div>
+    <div class="label">Light 4</div>
     <div class="toggle"><div class="knob"></div></div>
   </div>
 
   <div class="card light" data-id="4">
-    <div class="icon">💡</div><div class="label">Light 5</div>
+    <div class="icon bulb"></div>
+    <div class="label">Light 5</div>
     <div class="toggle"><div class="knob"></div></div>
   </div>
 
   <!-- FANS -->
   <div class="card fan" data-id="5">
-    <div class="icon">🌀</div><div class="label">Fan 1</div>
+    <div class="icon fan-icon"></div>
+    <div class="label">Fan 1</div>
     <div class="toggle"><div class="knob"></div></div>
   </div>
 
   <div class="card fan" data-id="6">
-    <div class="icon">🌀</div><div class="label">Fan 2</div>
+    <div class="icon fan-icon"></div>
+    <div class="label">Fan 2</div>
     <div class="toggle"><div class="knob"></div></div>
   </div>
 
   <!-- PLUG -->
   <div class="card plug" data-id="7">
-    <div class="icon">🔌</div><div class="label">3-Pin Plug</div>
+    <div class="icon plug-icon"></div>
+    <div class="label">3-Pin Plug</div>
     <div class="toggle"><div class="knob"></div></div>
   </div>
 
 </main>
 
-<footer>© TARCIN ROBOTICS</footer>
+<footer>
+  © TARCIN ROBOTICS
+</footer>
 
+<!-- WebSocket Logic -->
 <script src="script.js"></script>
 </body>
 </html>
