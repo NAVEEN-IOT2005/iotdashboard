@@ -1,4 +1,4 @@
-const WS_URL = "wss://iot-ws-server.onrender.com";
+const WS_URL = "https://iot-ws-server.onrender.com";
 const socket = new WebSocket(WS_URL);
 
 socket.onopen = () => {
