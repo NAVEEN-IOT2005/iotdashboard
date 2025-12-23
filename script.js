@@ -23,13 +23,15 @@ document.querySelectorAll(".toggle").forEach(toggle=>{
     const id = Number(card.dataset.id);
     const newState = !card.classList.contains("on");
 
-    // instant UI
+    // Instant UI feedback
     card.classList.toggle("on", newState);
     toggle.classList.toggle("on", newState);
 
-    socket.send(JSON.stringify({
-      id:id,
-      state:newState
-    }));
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({
+        id:id,
+        state:newState
+      }));
+    }
   });
 });
